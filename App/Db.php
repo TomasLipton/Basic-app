@@ -5,6 +5,8 @@ namespace App;
 
 class Db
 {
+
+    use Singleton;
     protected $dbh;
 
     public function __construct()
