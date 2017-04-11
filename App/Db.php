@@ -1,31 +1,37 @@
 <?php
 
-namespace App;
 
+namespace App;
 
 class Db
 {
 
     use Singleton;
+
     protected $dbh;
 
-    public function __construct()
+    protected function __construct()
     {
-        $this->dbh = new \PDO('mysql:host=localhost;dbname=test', 'root', '');
+        try {
+            $this->dbh = new \PDO('mysql:host=localhost;dbname=test', 'root', '', array(\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+        } catch (\PDOException $e) {
+            throw new \App\Exceptions\Db($e->getMessage());
+        }
     }
 
-    public function execute($sql, $params=[])
+    public function execute($sql, $params = [])
     {
         $sth = $this->dbh->prepare($sql);
-        return $sth->execute($params);
+        $res = $sth->execute($params);
+        return $res;
     }
 
-    public function query($sql, $class)
+    public function query($sql, $params, $class)
     {
         $sth = $this->dbh->prepare($sql);
-        $res = $sth->execute();
+        $res = $sth->execute($params);
         if (false !== $res) {
-            return $sth->fetchAll(\PDO::FETCH_CLASS, $class);  // режим превращения данный, тип
+            return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
         }
         return [];
     }

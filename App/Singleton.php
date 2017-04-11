@@ -2,11 +2,8 @@
 
 namespace App;
 
-
 trait Singleton
 {
-
-    public $counter;
 
     protected static $instance;
 
@@ -14,12 +11,12 @@ trait Singleton
     {
     }
 
-    public static function instance()// poluchenie
+    public static function instance()
     {
-        if (null === static::$instance){
-            static::$instance = new static();
+        if (null === static::$instance) {
+            static::$instance = new static;
         }
-
         return static::$instance;
     }
+
 }

@@ -2,7 +2,17 @@
 
 /**
  * App\Models\User => ./App/Models/User.php
+ *
+ * анонимная функция
  */
-function __autoload($class){
-    require __DIR__ . '/' .  str_replace('\\', '/', $class) . '.php';
-}
+spl_autoload_register(
+    function ($class) {
+        $filename = __DIR__ . '/' . str_replace('\\', '/', $class) . '.php';
+        if (file_exists($filename)) {
+            include $filename;
+        }
+    }
+);
+
+
+
