@@ -1,19 +1,25 @@
 <?php
 
+error_reporting(E_ALL);
+
 require __DIR__ . '/autoload.php';
 
-$url = $_SERVER['REQUEST_URI'];
+$uri = $_SERVER['REQUEST_URI'];
+$parts = explode('/', $uri);
 
-$controller = new \App\Controllers\News();
+$ctrl = !empty($parts[1]) ? ucfirst($parts[1]) : 'Index';
+$action = !empty($parts[2]) ? ucfirst($parts[2]) : 'Default';
 
-$action = $_GET['action'] ?: 'Index';
+$controllerClassName = '\App\Controllers\\' . $ctrl;
+
 
 try {
+    $controller = new $controllerClassName();
     $controller->action($action);
 } catch (\App\Exceptions\Core $e) {
-    echo 'Возникло исключение приложени: ' . $e->getMessage();
+    echo 'Возникло исключение приложеня: ' . $e->getMessage();
 } catch (\App\Exceptions\Db $e) {
     echo 'Что-то не так с базой: ' . $e->getMessage();
-} finally {
-    // код здесь выполнится в любом слуачае
+} catch (Exception $e) {
+    die('Неопознанная ошибка: ' . $e->getMessage());
 }

@@ -25,8 +25,6 @@ class News
 
     protected function beforeAction()
     {
-//        $ex = new Core('Soobstenie ob isklutenii');
-//        throw $ex;
     }
 
     protected function actionIndex()
@@ -49,7 +47,7 @@ class News
             $article = new \App\Models\News();
             $article->fill([]);
             $article->save();
-        } catch (MultiException $e){
+        } catch (MultiException $e) {
             $this->view->errors = $e;
         }
         $this->view->display(__DIR__ . '/../templates/create.php');

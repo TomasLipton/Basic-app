@@ -47,7 +47,7 @@ abstract class Model
                 continue;
             }
             $columns[] = $k;
-            $values[':'.$k] = $v;
+            $values[':' . $k] = $v;
         }
 
         $sql = '
@@ -58,6 +58,55 @@ VALUES
         ';
         $db = Db::instance();
         $db->execute($sql, $values);
+    }
+
+    public static function findOneByColumn($column, $value)
+    {
+        $db = Db::instance();
+        $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE ' . $column . '=:value';
+        $res = $db->query($sql, [':value' => $value], static::class);
+        if (empty($res)) {
+            return false;
+        } else {
+            return $res;
+        }
+    }
+
+    protected function update()
+    {
+        $cols = [];
+        $data = [];
+        foreach ($this as $k => $v) {
+            $data[':' . $k] = $v;
+            if ('id' == $k) {
+                continue;
+            }
+            $cols[] = $k . '=:' . $k;
+        }
+        $sql = '
+        UPDATE ' . static::TABLE . '
+        SET ' . implode(', ', $cols) . '
+        WHERE id=:id 
+        ';
+        $db = Db::instance();
+        $db->execute($sql, $data);
+    }
+
+    public function save()
+    {
+        if (!isset($this->id)) {
+            $this->insert();
+        } else {
+            $this->update();
+        }
+    }
+
+    //TODO: create delete method
+    public function delete()
+    {
+        $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id = :id';
+        $db = Db::instance();
+        $db->execute($sql, array('id' => $this->id));
     }
 
 }
