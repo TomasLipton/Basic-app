@@ -19,25 +19,15 @@
 </head>
 <body>
 
-<h1>Все новости</h1>
+<h1><?php echo $title; ?></h1>
 
-<?php foreach ($news as $article) : ?>
+<p>Example of foreach</p>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <?php echo $article->title; ?>
-    </div>
-    <div class="panel-body">
-
-        <?php
-        if (!empty($article->author)): ?>
-            Автор: <?php echo $article->author->name; ?>
-        <?php endif; ?>
-
-    </div>
-</div>
-
-<?php endforeach; ?>
+<ul>
+    <?php foreach ($text as $word) : ?>
+        <li><?= $word ?></li>
+    <?php endforeach; ?>
+</ul>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

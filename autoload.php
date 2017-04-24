@@ -1,13 +1,7 @@
 <?php
 
-/**
- * App\Models\User => ./App/Models/User.php
- *
- * анонимная функция
- */
-
 $vendor =  __DIR__ . '/../vendor/autoload.php';
-if (file_exists($vendor)){
+if (is_readable($vendor)){
     include $vendor;
 }
 
@@ -19,6 +13,3 @@ spl_autoload_register(
         }
     }
 );
-
-
-

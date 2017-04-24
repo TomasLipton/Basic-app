@@ -20,6 +20,6 @@ try {
     echo 'Возникло исключение приложеня: ' . $e->getMessage();
 } catch (\App\Exceptions\Db $e) {
     echo 'Что-то не так с базой: ' . $e->getMessage();
-} catch (Exception $e) {
+} catch (Error $e) {
     die('Неопознанная ошибка: ' . $e->getMessage());
 }

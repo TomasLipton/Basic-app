@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Exceptions\Core;
-use App\MultiException;
+use App\Exceptions\MultiException;
 use App\View;
 
 class News
@@ -12,7 +12,6 @@ class News
 
     public function __construct()
     {
-
         $this->view = new View();
     }
 
@@ -27,18 +26,11 @@ class News
     {
     }
 
-    protected function actionIndex()
+    protected function actionDefault()
     {
         $this->view->title = 'Мой крутой сайт!';
         $this->view->news = \App\Models\News::findAll();
         $this->view->display(__DIR__ . '/../templates/index.php');
-    }
-
-    protected function actionOne()
-    {
-        $id = (int)$_GET['id'];
-        $this->view->article = \App\Models\News::findById($id);
-        $this->view->display(__DIR__ . '/../templates/one.php');
     }
 
     protected function actionCreate()
@@ -46,7 +38,6 @@ class News
         try {
             $article = new \App\Models\News();
             $article->fill([]);
-            $article->save();
         } catch (MultiException $e) {
             $this->view->errors = $e;
         }

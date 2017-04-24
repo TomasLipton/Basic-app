@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
+use App\Exceptions\MultiException;
 use App\Model;
-use App\MultiException;
-
 /**
  * Class News
  * @package App\Models

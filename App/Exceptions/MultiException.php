@@ -6,8 +6,10 @@
  * Time: 17:28
  */
 
-namespace App;
+namespace App\Exceptions;
 
+
+use App\TCollection;
 
 class MultiException
     extends \Exception
